@@ -16,5 +16,3 @@ play> idea with-sources=yes
 IntelliJを起動し、「File -&gt; Import Project;」から`playframework`ディレクトリを選択する。続いて「Create project from existing sources」を選択し、既に存在するプロジェクトファイルを上書きしてよいかと聞かれるダイアログでYesを選択する。後は適当にウィザードを進めていけばよい。
 
 今はこのソフトウェアを「Vagrant + Ansible」でセットアップできるようにしている途中で、詳細の部分は変わるかもしれないけれど、IntelliJでプロジェクトをインポートする流れについてはメモをしておきたかったので、本記事を書いている。
-
-<!-- http://stupid-web-nikki.herokuapp.com/article/20140416 -->
