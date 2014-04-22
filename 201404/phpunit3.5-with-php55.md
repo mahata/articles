@@ -4,7 +4,7 @@ PHP5.5とPHPUnit3.5を一緒に使うのは困難である。素直にPHPUnitを
 
 * PHP5.5
 * Zend Framework 1.x
-* PHPUnit5.3
+* PHPUnit3.5
 
 ## 依存関係
 
