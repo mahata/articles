@@ -1,6 +1,6 @@
 副作用なしでWSSEリクエストヘッダをパースするScalaコードについて考えたので、それについてまとめる。
 
-次の入力値 (ここでは`input`) から、Username、PasswordDigest、Created、Nonceを抜き出せればよい。
+次の入力値から、Username、PasswordDigest、Created、Nonceを抜き出せればよい。
 
 ```
 val input = """Username="uname", PasswordDigest="oCkDT0u3nv/SiC1amR2pq7JxTxw=", Created="2014-05-10T10:08:43-07:00", Nonce="OEE2WXhoZ252elFrN2NwY1lDVjIzdUhmYjk4PQ==""""
@@ -36,11 +36,11 @@ println("Created = " + Created)
 println("Nonce = " + Nonce)
 ```
 
-こうしてしまうと、`Username`、`PasswordDigest`、`Created`、`Nonce`の値が実行中に書き換わってしまうのでいまいちである。
+こうしてしまうと、`Username`、`PasswordDigest`、`Created`、`Nonce`の値が実行中に書き換わってしまうのでよくない。このコードは参照透明ではない。
 
 ## 副作用を除去する例
 
-`case class`を使って次のように書いてみる。パターンマッチを使うために`case class`にしている。なお、この実装のアイディアは[@ujm](https://twitter.com/ujm)からもらった。
+新しいデータス構造を`case class`を使って定義し、次のように書いてみる。`case class`を使う理由はパターンマッチを使いたいからである。なお、この実装のアイディアは[@ujm](https://twitter.com/ujm)からもらった。
 
 ```scala
 val input = """Username="uname", PasswordDigest="oCkDT0u3nv/SiC1amR2pq7JxTxw=", Created="2014-05-10T10:08:43-07:00", Nonce="OEE2WXhoZ252elFrN2NwY1lDVjIzdUhmYjk4PQ==""""
@@ -68,11 +68,11 @@ val result = wsseParse match {
 println('result, 'is, result)
 ```
 
-副作用が抜けて、だいぶ良くなったように思う。
+副作用が抜けて、だいぶ良くなった。
 
 ## copyを使う例
 
-せっかく`case class`を使っているのだから、`copy`を使うとより簡潔になる。`copy`についても[@ujm](https://twitter.com/ujm)に教わった。差分はこんな感じ。
+せっかく`case class`を使っているのだから、`copy`を使うとより簡潔になる。`copy`についても[@ujm](https://twitter.com/ujm)に教わった。差分は次の通り。
 
 ```scala
 val wsseParse = values.foldLeft(WSSEOption(None, None, None, None)) { (acc, value) =>
@@ -85,5 +85,3 @@ val wsseParse = values.foldLeft(WSSEOption(None, None, None, None)) { (acc, valu
   }
 }
 ```
-
-ここまでで満足した。
